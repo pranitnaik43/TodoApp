@@ -1,5 +1,10 @@
 const db = require("./mongo")
 
+const todoStatus = {
+  PENDING: "pending",
+  DONE: "done"
+}
+
 const service = {
   async find(req, res) {
     try{
@@ -12,10 +17,11 @@ const service = {
   },
   async create(req, res) {
     try{
-      if(!req.text || !req.priority) {
+      let body = req.body;
+      if(!body.text || !body.priority) {
         return res.send({success: false, message: "Incomplete data"});
       }
-      const data = await db.todos.insertOne({ text: req.text, priority: req.priority });
+      const data = await db.todos.insertOne({ text: body.text, priority: body.priority, status: todoStatus.PENDING });
       res.send({ success: true, message: "Todo added successfully" });
     } catch(err) {
       console.log(err);

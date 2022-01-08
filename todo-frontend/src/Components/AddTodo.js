@@ -1,4 +1,4 @@
-import { axios } from "axios";
+import axios from "axios";
 import { useState } from "react";
 
 const AddTodo = () => {
@@ -10,7 +10,7 @@ const AddTodo = () => {
   let config = {
     method: "POST",
     url: "/api/todos",
-    data: "hello"
+    data: {...todo}
   }
 
   let handleChange = (e) => {
