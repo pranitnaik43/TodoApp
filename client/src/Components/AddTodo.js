@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 
-const AddTodo = () => {
-  const [todo, setTodo] = useState({
+const AddTodo = ({getTodos}) => {
+  const todoTemplate = {
     text: "",
     priority: ""
-  });
+  }
+
+  const [todo, setTodo] = useState({...todoTemplate});
 
   let config = {
     method: "POST",
@@ -29,9 +31,12 @@ const AddTodo = () => {
 
   let handleSubmit = (e) => {
     e.preventDefault();
+    // add todo to db
     axios(config).then(response => {
       if(response.data.success) {
         console.log(response.data.message);
+        setTodo({...todoTemplate});
+        getTodos();
       } else {
         console.log(response.data.message);
       }
@@ -43,7 +48,7 @@ const AddTodo = () => {
       <form onSubmit={handleSubmit}>
         <div className="input-group w-100">
           {/* to do text input  */}
-          <input type="text" name="text" className="form-control" id="floatingInput" placeholder="To do text" onChange={(e) => { handleChange(e) }} />
+          <input type="text" name="text" className="form-control" id="floatingInput" placeholder="To do text" value={todo.text} onChange={(e) => { handleChange(e) }} />
           {/* Priority drop down */}
           <div>
           <select className="form-select" name="priority" id="floatingSelect" onChange={(e) => { handleChange(e) }} value={todo.priority}>

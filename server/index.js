@@ -22,6 +22,7 @@ const PORT = (process.env.PORT) ? (process.env.PORT) : 3001;
     app.get("/check",(req, res) => res.send({"message": "running"}));
     app.get("/api/todos", todoService.find);
     app.post("/api/todos", todoService.create);
+    app.put("/api/todos/:id", todoService.updateStatus);
 
     if (process.env.NODE_ENV === 'production') {
       // Serve any static files

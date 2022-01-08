@@ -8,7 +8,7 @@ function App() {
 
   const [todos, setTodos] = useState([]);
 
-  useEffect(() => {
+  let getTodos = () => {
     axios.get("/api/todos").then(response => {
       if(response.data && Array.isArray(response.data)) {
         setTodos(response.data);
@@ -18,16 +18,21 @@ function App() {
     }).catch(err => {
       console.log(err);
     });
+  }
+
+  useEffect(() => {
+    getTodos();
   }, []);
 
   return (
     <div className="container">
+      {/* {console.log(todos)} */}
       <div className='justify-content-center mt-5'>
         <div>
           <h1 className='text-primary text-center'>Todos</h1>
           <hr/>
-          <AddTodo />
-          <Todos todos={todos}/>
+          <AddTodo getTodos={getTodos}/>
+          <Todos todos={todos} setTodos={setTodos}/>
         </div>
       </div>
     </div>
