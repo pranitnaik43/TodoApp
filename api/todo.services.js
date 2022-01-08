@@ -7,7 +7,7 @@ const service = {
       res.send(data);
     } catch(err) {
       console.log(err);
-      res.send({ error: { message: "Operation failed" }});
+      res.send({ success: false, message: "Operation failed" });
     }
   },
   async create(req, res) {
@@ -16,10 +16,10 @@ const service = {
         return res.send({success: false, message: "Incomplete data"});
       }
       const data = await db.todos.insertOne({ text: req.text, priority: req.priority });
-      res.send(data);
+      res.send({ success: true, message: "Todo added successfully" });
     } catch(err) {
       console.log(err);
-      res.send({ error: { message: "Operation failed" }});
+      res.send({ success: false, message: "Operation failed" });
     }
   }
 }
